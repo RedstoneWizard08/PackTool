@@ -42,10 +42,6 @@ jobs:
           target: ${{ matrix.target }}
       - name: Setup caching
         uses: Swatinem/rust-cache@v1
-      - name: Check the code
-        uses: actions-rs/cargo@v1
-        with:
-          command: check
       - name: Build the binary application
         uses: actions-rs/cargo@v1
         with:
