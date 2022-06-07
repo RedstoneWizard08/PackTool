@@ -1,4 +1,4 @@
-name: CI
+name: Build artifacts
 on: [push]
 
 jobs:
@@ -7,10 +7,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: aarch64-apple-darwin
-            arch: linux/arm64/v8
-          - target: aarch64-pc-windows-msvc
-            arch: linux/arm64/v8
           - target: aarch64-unknown-linux-musl
             arch: linux/arm64/v8
           - target: aarch64-unknown-linux-gnu
@@ -23,33 +19,15 @@ jobs:
             arch: linux/arm/v7
           - target: arm-unknown-linux-musleabihf
             arch: linux/arm/v7
-          - target: armv7-unknown-linux-gnueabi
-            arch: linux/arm/v7
-          - target: armv7-unknown-linux-musleabi
-            arch: linux/arm/v7
-          - target: armv7-unknown-linux-musleabihf
-            arch: linux/arm/v7
-          - target: armv7-unknown-linux-gnueabihf
-            arch: linux/arm/v7
           - target: i686-unknown-linux-musl
-            arch: linux/386
-          - target: i686-pc-windows-gnu
-            arch: linux/386
-          - target: i686-pc-windows-msvc
             arch: linux/386
           - target: i686-unknown-linux-gnu
             arch: linux/386
-          - target: x86_64-apple-darwin
-            arch: linux/amd64
-          - target: x86_64-pc-windows-gnu
-            arch: linux/amd64
-          - target: x86_64-pc-windows-msvc
-            arch: linux/amd64
           - target: x86_64-unknown-linux-musl
             arch: linux/amd64
           - target: x86_64-unknown-linux-gnu
             arch: linux/amd64
-    name: Rust project
+    name: Build
     runs-on: ubuntu-latest
     services:
       registry:
@@ -72,13 +50,15 @@ jobs:
           push: true
           tags: localhost:5000/redstonewizard08/temp:latest
           platforms: ${{ matrix.arch }}
+          build-args: |
+            TARGET=${{ matrix.target }}
       - name: Move the artifact
         id: move
         env:
           TARGET: ${{ matrix.target }}
         run: |
           docker create --name tmp localhost:5000/redstonewizard08/temp:latest
-          docker cp tmp:/usr/src/packtool/target/release/packtool .
+          docker cp tmp:/usr/src/packtool/target/${{ matrix.target }}/release/packtool .
           cp packtool packtool-$(bash getarch.sh)
           echo "::set-output name=executable::packtool-$(bash getarch.sh)"
           docker rm tmp
