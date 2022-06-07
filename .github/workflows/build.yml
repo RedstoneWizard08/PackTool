@@ -40,6 +40,8 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+      - name: Setup caching
+        uses: Swatinem/rust-cache@v1
       - name: Check the code
         uses: actions-rs/cargo@v1
         with:
