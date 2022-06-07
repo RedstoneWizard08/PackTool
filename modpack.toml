@@ -1,0 +1,5 @@
+files = []
+mods = []
+name = "lol"
+summary = "A modpack created with PackTool."
+version = "0.0.0"
