@@ -11,14 +11,6 @@ jobs:
             arch: linux/arm64/v8
           - target: aarch64-unknown-linux-gnu
             arch: linux/arm64/v8
-          - target: arm-unknown-linux-gnueabi
-            arch: linux/arm/v7
-          - target: arm-unknown-linux-gnueabihf
-            arch: linux/arm/v7
-          - target: arm-unknown-linux-musleabi
-            arch: linux/arm/v7
-          - target: arm-unknown-linux-musleabihf
-            arch: linux/arm/v7
           - target: i686-unknown-linux-musl
             arch: linux/386
           - target: i686-unknown-linux-gnu
